@@ -10,6 +10,8 @@ import fifa.model.TeamScore
 import java.util.HashMap
 import java.util.Collections
 import java.util.ArrayList
+import java.util.Date
+import java.text.SimpleDateFormat
 
 class MatchDAO {
 	
@@ -56,7 +58,10 @@ class MatchDAO {
 	def static getSessionMatches(){
 		val sessions = new HashMap<String,List<Match>>()
 		val matches = getAllMatches()
+		val sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+		println("start: " + sdf.format(new Date()))
 		Collections.sort(matches, new Match.dateComparator)
+		println("posortowano: " + sdf.format(new Date()))
 
 		var sessionMatches = new ArrayList<Match>
 		var key = matches.get(0).date
@@ -71,6 +76,7 @@ class MatchDAO {
 		}
 		sessionMatches.add(matches.get(matches.length - 1))
 		sessions.put(key, sessionMatches)
+		println("end: " + sdf.format(new Date()))
 		
 		return sessions
 	}
