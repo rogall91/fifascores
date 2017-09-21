@@ -23,7 +23,7 @@ class MatchDAO {
 		try{
 			t = session.beginTransaction()
 
-			matches = session.createQuery("from Match").list()
+			matches = session.createQuery("from Match order by date").list()
 
 			t.commit()
 		} catch (HibernateException e){
@@ -42,7 +42,7 @@ class MatchDAO {
 			
 			matches = 
 				session
-					.createQuery("from Match where substring (date, 1, 7) = :date")
+					.createQuery("from Match order by date where substring (date, 1, 7) = :date")
 					.setParameter("date","month")
 					.list()
 
@@ -60,8 +60,6 @@ class MatchDAO {
 		val matches = getAllMatches()
 		val sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
 		println("start: " + sdf.format(new Date()))
-		Collections.sort(matches, new Match.dateComparator)
-		println("posortowano: " + sdf.format(new Date()))
 
 		var sessionMatches = new ArrayList<Match>
 		var key = matches.get(0).date
