@@ -1,0 +1,8 @@
+build/
+generated-sources/
+.settings/
+.classpath
+.project
+
+*.jar
+*.MF
