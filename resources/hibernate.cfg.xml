@@ -9,7 +9,7 @@
 	   	<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres</property>
 	   	<property name="hibernate.connection.username">fifa</property>
 	   	<property name="hibernate.connection.password">fifa2018</property>
-	   	<property name="hibernate.hbm2ddl.auto">validate</property>
+	   	<property name="hibernate.hbm2ddl.auto">update</property>
 		<mapping class="fifa.model.Player"/> 
     	<mapping class="fifa.model.TeamScore"/> 
     	<mapping class="fifa.model.Match"/>

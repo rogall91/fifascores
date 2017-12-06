@@ -6,12 +6,12 @@ import javax.ws.rs.Path
 import javax.ws.rs.GET
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
-import java.util.Collection
 import fifa.model.Match
 import org.json.JSONArray
 import javax.ws.rs.PathParam
+import java.util.List
 
-@Path("/match")
+@Path("/matches")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 class MatchService {
 	
@@ -19,6 +19,12 @@ class MatchService {
 	@Path("/all")
 	def getAllMatches(){
 		MatchDAO.allMatches.toJSON.toString()
+	}
+	
+	@GET
+	@Path("/all/{edition}")
+	def getEditionMatches(@PathParam("edition") String edition){
+		MatchDAO.getEditionMatches(edition).toJSON.toString()
 	}
 	
 	@GET
@@ -30,15 +36,20 @@ class MatchService {
 	@GET
 	@Path("/sessions")
 	def getSessionMatches(){
-		val json = new JSONObject()
-		val sesionMatches = MatchDAO.getSessionMatches
-		for (key : sesionMatches.keySet){
-			json.put(key, sesionMatches.get(key).toJSON)
-		}
-		json.toString()
+		new JSONObject(
+			MatchDAO.getSessionMatches.mapValues[sessionMatches |
+				sessionMatches.toJSON
+			]
+		).toString()
 	}
 	
-	def toJSON(Collection<Match> matches){
+	@GET
+	@Path("/update")
+	def updateMatches(){
+		MatchDAO.externalUpdateMatches
+	}
+	
+	def toJSON(List<Match> matches){
 		val json = new JSONArray()
 		for (match : matches){
 			json.put(match.JSON)
@@ -47,6 +58,10 @@ class MatchService {
 	}
 	
 	def static void main(String[] args){
-		print(MatchDAO.getSessionMatches.keySet)
+		val matches = MatchDAO.getLastXMatchesForPlayer(5,"Rogal")
+		for (match : matches){
+			println(match.JSON)
+		}
+		MatchDAO.externalUpdateMatches
 	}
 }

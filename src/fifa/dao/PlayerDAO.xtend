@@ -6,10 +6,28 @@ import fifa.model.Player
 import org.hibernate.Session
 import java.util.Collection
 import java.util.ArrayList
+import java.util.List
 
 class PlayerDAO {
 	
 	val static session = SessionHelper.getSession()
+	
+	def static getAllPlayers(){
+		var List<Player> players = null
+		var Transaction t = null
+		try{
+			t = session.beginTransaction()
+
+			players = session.createQuery("from Player order by name").list()
+
+			t.commit()
+		} catch (HibernateException e){
+			if (t !== null) t.rollback
+			e.printStackTrace()
+		}
+
+		return players
+	}
 	
 	def static getOrAddPlayer(String name){
 		var Player player = null

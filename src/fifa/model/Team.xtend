@@ -8,7 +8,7 @@ class Team {
 	@Id
 	String name
 	
-	boolean club
+	String type
 	
 	double rating
 	
@@ -26,12 +26,12 @@ class Team {
 		this.name = name
 	}
 	
-	def isClub(){
-		club
+	def getType(){
+		type
 	}
 	
-	def setClub(boolean club){
-		this.club = club
+	def setType(String type){
+		this.type = type
 	}
 	
 	def getRating(){

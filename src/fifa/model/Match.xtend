@@ -31,6 +31,8 @@ class Match {
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	TeamScore guestTeamScore
 	
+	String edition
+	
 	new (){}
 	
 	new (String externalId, String date, TeamScore homeTeamScore, TeamScore guestTeamScore){
@@ -109,12 +111,21 @@ class Match {
 		this.guestTeamScore = guestTeamScore
 	}
 	
+	def getEdition(){
+		edition
+	}
+	
+	def setEdition(String edition){
+		this.edition = edition
+	}
+	
 	def JSON(){
 		val object = new JSONObject()
-		object.put("id",this.id)
+		object.put("externalId", this.externalId)
 		object.put("date", this.date)
 		object.put("homeTeamScore", this.homeTeamScore.JSON())
 		object.put("guestTeamScore", this.guestTeamScore.JSON())
+		object.put("id", this.id)
 	}
 
 	static class dateComparator implements Comparator<Match> {
